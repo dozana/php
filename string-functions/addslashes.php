@@ -9,5 +9,5 @@ enter is treated as plain text to prevent XSS attacks.
 */
 
 $userComment = "<script>alert('XSS Attack!');</script>";
-$escapedComment = addcslashes($userComment, '<>&"\'');
+$escapedComment = addslashes($userComment);
 echo "User Comment: $escapedComment";
