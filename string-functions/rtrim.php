@@ -9,6 +9,9 @@ Suppose you have a web application that allows users to sign up with a username 
 $username = 'admin';
 $password = 'pass123';
 
+// Add trailing whitespaces or newline characters
+$password .= "  \t\n\r\0\x0B";
+
 $trimmed_password = rtrim($password);
 $hashed_password = hash('sha256', $trimmed_password);
 $database_query = "INSERT INTO users (username, password_hash) VALUES ('$username', '$hashedPassword')";
