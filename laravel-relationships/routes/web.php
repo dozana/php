@@ -75,5 +75,5 @@ Route::get('/address', function () {
 
     $addresses = \App\Address::all();
 
-    return view('users.index', compact('addresses'));
+    return view('users.address', compact('addresses'));
 });

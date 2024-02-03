@@ -8,7 +8,7 @@ class Address extends Model
 {
     protected $fillable = ['user_id', 'country'];
 
-    public function address()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
