@@ -10,10 +10,33 @@
 <?php
 
 $number = 10;
-echo "$number <br>";
+echo $number;
+
+echo "<br>";
 
 define("PI", 3.14);
 echo PI;
+
+echo "<br>";
+
+const CONSTANT = "Hello World";
+echo CONSTANT;
+
+echo "<br>";
+
+const ANIMALS = ["dog","cat","bird"];
+echo ANIMALS[1];
+
+echo "<br>";
+
+define("HUMAN", [
+  "john",
+  "tom",
+  "ann"
+]);
+
+echo HUMAN[2];
+
 
 ?>
 
