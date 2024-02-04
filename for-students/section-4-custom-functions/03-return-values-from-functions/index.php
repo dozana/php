@@ -10,7 +10,7 @@
 <?php
 
 function message($text) {
-  echo $text . "<br>";
+  return $text . "<br>";
 }
 
 echo message("Hi there");
@@ -18,12 +18,12 @@ echo message("How are you ?");
 
 function calculate($number1, $number2) {
   $sum = $number1 + $number2 . "<br>";
-  echo $sum;
+  return $sum;
 }
 
-calculate(2, 3);
-calculate(4, 6);
-calculate(1, 7);
+echo calculate(2, 3);
+echo calculate(4, 6);
+echo calculate(1, 7);
 
 ?>
 
