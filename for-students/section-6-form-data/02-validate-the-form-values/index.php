@@ -36,17 +36,21 @@
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
           $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
           $password = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
-      
-          if (empty($username)) {
-              echo "Username is required.";
-          } elseif (strlen($username) < $min || strlen($username) > $max) {
-              echo "Username must be between $min and $max characters.";
-          } elseif (!in_array($username, $name)) {
-              echo "Sorry, you are not allowed.";
-          } else {
-              echo "Welcome!";
-              echo "<p>Hello: <strong>{$username}</strong>, your password is <strong>{$password}</strong></p>";
+
+          if(empty($username) || empty($password)) {
+            echo "empty";
           }
+      
+          // if (empty($username)) {
+          //     echo "Username is required.";
+          // } elseif (strlen($username) < $min || strlen($username) > $max) {
+          //     echo "Username must be between $min and $max characters.";
+          // } elseif (!in_array($username, $name)) {
+          //     echo "Sorry, you are not allowed.";
+          // } else {
+          //     echo "Welcome!";
+          //     echo "<p>Hello: <strong>{$username}</strong>, your password is <strong>{$password}</strong></p>";
+          // }
       }
       ?>
     </div>
