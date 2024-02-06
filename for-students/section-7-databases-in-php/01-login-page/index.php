@@ -12,7 +12,7 @@
   <div class="row my-4">
     <div class="col-md-6">
 
-      <h3 class="mb-3">Input</h3>
+      <h3 class="mb-3">Login</h3>
       <form method="post" action="index.php">
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
@@ -25,14 +25,10 @@
         <button type="submit" name="login" class="btn btn-primary btn-sm">Login</button>
       </form>
 
-    </div>
-    <div class="col-md-6">
-      <h3 class="mb-3">Output</h3>
       <?php
         $min = 5;
         $max = 10;
-        $names = ["john","ann","tom"];
-
+        
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
           $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
           $password = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
@@ -49,6 +45,7 @@
           }
         }
       ?>
+
     </div>
   </div>
 </div>
