@@ -12,7 +12,7 @@
   <div class="row my-4">
     <div class="col-md-6">
 
-      <h3 class="mb-3">Login</h3>
+      <h3 class="mb-3">Create</h3>
       <form method="post" action="index.php">
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
@@ -26,25 +26,34 @@
       </form>
 
       <?php
-        $min = 5;
-        $max = 10;
-        $names = ["john","ann","tom"];
-        
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
-          $password = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
+        $localhost = 'localhost';
+        $username = 'root';
+        $password = '';
+        $database = 'test';
+
+        $conn = mysqli_connect($localhost, $username, $password, $database);
+
+        if(!$conn) {
+          die("connection failed: ".mysqli_connect_error());
+        }
       
-          if (empty($username)) {
-            echo "Username is required.";
-          } elseif (strlen($username) < $min || strlen($username) > $max) {
-            echo "Username must be between $min and $max characters.";
-          } elseif (!in_array($username, $names)) {
-            echo "Sorry, you are not allowed.";
+        if(isset($_POST['login'])) {
+          $username = $_POST['username'];
+          $password = $_POST['password'];
+
+          $sql = "INSERT INTO my_passwords(username, password) ";
+          $sql .= "VALUES ('$username', '$password')";
+
+          $result = mysqli_query($conn, $sql);
+
+          if(!$result) {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
           } else {
-            echo "Welcome!";
-            echo "<p>Hello: <strong>{$username}</strong>, your password is <strong>{$password}</strong></p>";
+            echo "New record created successfullu.";
           }
         }
+
+        mysqli_close($conn);
       ?>
 
     </div>
