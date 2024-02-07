@@ -1,6 +1,6 @@
 <?php 
 include 'db_connection.php'; 
-include 'functions.php'; 
+include 'functions.php';
 ?>
 
 <!doctype html>
@@ -35,31 +35,13 @@ include 'functions.php';
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" name="password">
         </div>
-        <button type="submit" name="login" class="btn btn-primary btn-sm mb-4">Update</button>
+        <button type="submit" name="submit" class="btn btn-primary btn-sm mb-4">Update</button>
       </form>
 
       <?php
-        include 'db_connection.php';
-      
-        if(isset($_POST['login'])) {
-          $username = $_POST['username'];
-          $password = $_POST['password'];
-          $id = $_POST['id'];
-
-          $sql = "UPDATE `my_passwords` SET 
-          `username` = '$username', 
-          `password` = '$username' 
-          WHERE `my_passwords`.`id` = $id";
-
-          $result = mysqli_query($conn, $sql);
-
-          if(!$result) {
-            die("Query Failed". mysqli_error($conn));
-            //echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-          } else {
-            echo "Record updated successfullu.";
-          }
-        }
+      if(isset($_POST['submit'])) {
+        updateRecord();
+      }
       ?>
 
     </div>
