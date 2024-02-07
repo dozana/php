@@ -35,7 +35,7 @@ include 'functions.php';
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" name="password">
         </div>
-        <button type="submit" name="login" class="btn btn-primary btn-sm">Update</button>
+        <button type="submit" name="login" class="btn btn-primary btn-sm mb-4">Update</button>
       </form>
 
       <?php
@@ -44,20 +44,22 @@ include 'functions.php';
         if(isset($_POST['login'])) {
           $username = $_POST['username'];
           $password = $_POST['password'];
+          $id = $_POST['id'];
 
-          $sql = "INSERT INTO my_passwords(username, password) ";
-          $sql .= "VALUES ('$username', '$password')";
+          $sql = "UPDATE `my_passwords` SET 
+          `username` = '$username', 
+          `password` = '$username' 
+          WHERE `my_passwords`.`id` = $id";
 
           $result = mysqli_query($conn, $sql);
 
           if(!$result) {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            die("Query Failed". mysqli_error($conn));
+            //echo "Error: " . $sql . "<br>" . mysqli_error($conn);
           } else {
-            echo "New record created successfullu.";
+            echo "Record updated successfullu.";
           }
         }
-
-        mysqli_close($conn);
       ?>
 
     </div>
