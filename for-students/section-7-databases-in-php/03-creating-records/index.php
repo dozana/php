@@ -1,3 +1,8 @@
+<?php
+include 'db_connection.php';
+include 'functions.php';
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,7 +17,8 @@
   <div class="row my-4">
     <div class="col-md-6">
 
-      <h3 class="mb-3">Create</h3>
+      <h3 class="mb-3">Create Record</h3>
+
       <form method="post" action="index.php">
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
@@ -22,29 +28,13 @@
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" name="password">
         </div>
-        <button type="submit" name="login" class="btn btn-primary btn-sm">Create</button>
+        <button type="submit" name="submit" class="btn btn-primary btn-sm mb-3">Create</button>
       </form>
 
       <?php
-        include 'db_connection.php';
-      
-        if(isset($_POST['login'])) {
-          $username = $_POST['username'];
-          $password = $_POST['password'];
-
-          $sql = "INSERT INTO my_passwords(username, password) ";
-          $sql .= "VALUES ('$username', '$password')";
-
-          $result = mysqli_query($conn, $sql);
-
-          if(!$result) {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-          } else {
-            echo "New record created successfullu.";
-          }
+        if(isset($_POST['submit'])) {
+          createRecord();
         }
-
-        mysqli_close($conn);
       ?>
 
     </div>

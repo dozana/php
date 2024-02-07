@@ -1,3 +1,7 @@
+<?php
+include 'db_connection.php';
+include 'function.php';
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,20 +16,9 @@
   <div class="row my-4">
     <div class="col-md-6">
 
-      <h3 class="mb-3">Read</h3>
+      <h3 class="mb-3">Reading Records</h3>
       
-      <?php
-        include 'db_connection.php';
-      
-        $sql = "SELECT * FROM my_passwords";
-        $result = mysqli_query($conn, $sql);
-
-        while($row = mysqli_fetch_row($result)) {
-          print_r($row);
-        }
-
-        mysqli_close($conn);
-      ?>
+      <?php readRecords(); ?>
 
     </div>
   </div>

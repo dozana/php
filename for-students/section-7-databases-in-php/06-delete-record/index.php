@@ -17,11 +17,11 @@ include 'functions.php';
   <div class="row my-4">
     <div class="col-md-6">
 
-      <h3 class="mb-3">Delete</h3>
+      <h3 class="mb-3">Delete Record</h3>
       <form method="post" action="index.php">
 
         <div class="mb-3">
-          <label for="id" class="form-label">ID</label>
+          <label for="id" class="form-label">Choose ID</label>
           <select name="id" id="id" class="form-select">
             <?php showAllData(); ?>
           </select>
