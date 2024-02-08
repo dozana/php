@@ -16,8 +16,8 @@ function connect () {
 function read() {
   global $conn;
 
-  $query = "SELECT * FROM my_passwords";
-  $result = mysqli_query($conn, $query);
+  $sql = "SELECT * FROM my_passwords";
+  $result = mysqli_query($conn, $sql);
   $count = mysqli_num_rows($result) > 0;
 
   if (!$count) { 
@@ -51,7 +51,8 @@ function create()
   $username = mysqli_real_escape_string($conn, $_POST['username']);
   $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-  $sql = "INSERT INTO my_passwords(username, password) VALUES('$username', '$password')";
+  $sql = "INSERT INTO my_passwords(username, password) 
+          VALUES('$username', '$password')";
   
   $result = mysqli_query($conn, $sql);
 
@@ -82,9 +83,14 @@ function update() {
   $password = mysqli_real_escape_string($conn, $_POST['password']);
   $id = intval($_POST['id']);
 
+  $hasFormat = "$2y$10$";
+  $salt = "iusesomecrazystrings22";
+  $hashFormatAndSalt = $hasFormat . $salt;
+  $encriptPassword = crypt($password, $hashFormatAndSalt);
+  
   $sql = "UPDATE my_passwords SET 
           username = '$username',
-          password = '$password'
+          password = '$encriptPassword'
           WHERE id = $id";
 
   $result = mysqli_query($conn, $sql);
