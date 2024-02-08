@@ -1,6 +1,6 @@
 <?php 
-include 'db_connection.php'; 
-include 'functions.php';
+include 'core/db_connection.php'; 
+include 'core/functions.php';
 ?>
 <!doctype html>
 <html lang="en">
@@ -14,9 +14,7 @@ include 'functions.php';
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-
-      <?php readRecords(); ?>
-
+      <?php read(); ?>
     </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <?php 
-include 'db_connection.php'; 
-include 'functions.php';
+include 'core/db_connection.php'; 
+include 'core/functions.php';
 ?>
 <!doctype html>
 <html lang="en">

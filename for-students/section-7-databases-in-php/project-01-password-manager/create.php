@@ -1,6 +1,6 @@
 <?php 
-include 'db_connection.php'; 
-include 'functions.php';
+include 'core/db_connection.php'; 
+include 'core/functions.php';
 ?>
 <!doctype html>
 <html lang="en">
@@ -15,21 +15,25 @@ include 'functions.php';
   <div class="row">
     <div class="col-md-12">
 
-      <form method="post" action="#">
-        <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username" name="username">
+      <div class="card mb-3">
+        <div class="card-body">
+          <form method="post" action="create.php">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username" name="username">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" name="submit" class="btn btn-primary btn-sm">Create</button>
+          </form>
         </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password">
-        </div>
-        <button type="submit" name="submit" class="btn btn-primary btn-sm mb-3">Create</button>
-      </form>
-
-      <?php
+      </div>
+    
+      <?php 
         if (isset($_POST['submit'])) {
-          createRecord();   
+          create();
         }
       ?>
 
