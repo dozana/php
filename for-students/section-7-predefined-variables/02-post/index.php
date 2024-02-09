@@ -27,11 +27,20 @@
       </form>
 
       <?php
+      if(isset($_POST["submit"])) {
         $firstName = $_POST['firstName'];
         $lastName = $_POST['lastName'];
         
         echo "First Name: $firstName <br>";
         echo "Last Name: $lastName <br>";
+
+        echo "<hr>";
+
+        foreach($_POST as $key => $val) {
+          echo $key . ' : ' . $val . '<br>'; 
+        }
+      }
+
       ?>
 
     </div>

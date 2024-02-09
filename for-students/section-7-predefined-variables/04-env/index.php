@@ -12,23 +12,24 @@
   <div class="row my-4">
     <div class="col-md-6">
 
-      <h3 class="mb-3">GET Super Global</h3>
-      
+      <h3 class="mb-3">ENV</h3>
+
       <?php
-        $userId = 10;
-        $firstName = "John";
-        $lastName = "Doe";
-        $age = 25;
+      $envFile = file('.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+      foreach ($envFile as $line) {
+        list($key, $value) = explode('=', $line, 2);
+        echo "$key: $value<br>";
+      }
+
+      if (isset($_ENV["USERNAME"])) {
+        echo 'My username is ' . $_ENV["USERNAME"] . '<br>';
+      } else {
+        echo 'Username is not set<br>';
+      }
+
       ?>
 
-      <a href="index.php?id=<?php echo $userId; ?>&firstName=<?php echo $firstName; ?>&lastName=<?php echo $lastName; ?>&age=<?php echo $age; ?>">
-        User Profile
-      </a>
-
-    </div>
-    <div class="col-md-6">
-      <h3 class="mb-3">Click the "User Profile" link</h3>
-      <?php print_r($_GET); ?>
     </div>
   </div>
 </div>
