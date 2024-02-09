@@ -16,6 +16,9 @@ include 'core/functions.php';
     <div class="col-md-12">
 
       <div class="card mb-3">
+        <div class="card-header">
+          Create Password
+        </div>
         <div class="card-body">
           <form method="post" action="create.php">
             <div class="mb-3">

@@ -23,7 +23,7 @@ function read() {
   if (!$count) { 
     echo "0 results";
   } else {
-    echo '<table class="table table-bordered table-hover">';
+    echo '<table class="table table-striped table-hover mb-0">';
       echo '<thead>';
         echo '<tr>';
           echo '<th>Username</th>';
