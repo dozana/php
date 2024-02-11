@@ -33,7 +33,7 @@
         
         $perPage = 2; // Per Page
         
-        $page = isset($_GET["Page"]) ? intval($_GET["Page"]) : 1;
+        $page = isset($_GET["page"]) ? intval($_GET["page"]) : 1;
         
         $prevPage = $page - 1;
         $nextPage = $page + 1;
@@ -51,17 +51,17 @@
         $sql .= " ORDER BY id ASC LIMIT $pageStart , $perPage";
         $result = mysqli_query($conn, $sql);
         ?>
-        <table class="table table-striped table-hover mb-0">
+        <table class="table table-striped table-hover mb-4">
           <tr>
-            <th width="91"> <div align="center">ID </div></th>
-            <th width="98"> <div align="center">Username </div></th>
-            <th width="198"> <div align="center">Password </div></th>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Password</th>
           </tr>
         <?php
         while ($objResult = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         ?>
           <tr>
-            <td><div align="center"><?php echo $objResult["id"];?></div></td>
+            <td><?php echo $objResult["id"];?></td>
             <td><?php echo $objResult["username"];?></td>
             <td><?php echo $objResult["password"];?></td>
           </tr>
@@ -70,22 +70,22 @@
         ?>
         </table>
 
-        <br>
+    
         Total <?php echo $numRows;?> Record : <?php echo $numPages;?> Page :
         <?php
         if ($prevPage) {
-            echo " <a href='$_SERVER[SCRIPT_NAME]?Page=$prevPage'><< Back</a> ";
+            echo " <a href='$_SERVER[SCRIPT_NAME]?page=$prevPage'><< Back</a> ";
         }
 
         for ($i = 1; $i <= $numPages; $i++) {
             if ($i != $page) {
-                echo "[ <a href='$_SERVER[SCRIPT_NAME]?Page=$i'>$i</a> ]";
+                echo "[ <a href='$_SERVER[SCRIPT_NAME]?page=$i'>$i</a> ]";
             } else {
                 echo "<b> $i </b>";
             }
         }
         if ($page != $numPages) {
-            echo " <a href ='$_SERVER[SCRIPT_NAME]?Page=$nextPage'>Next>></a> ";
+            echo " <a href ='$_SERVER[SCRIPT_NAME]?page=$nextPage'>Next>></a> ";
         }
         mysqli_close($conn);
       ?>
