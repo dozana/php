@@ -7,6 +7,8 @@
   </head>
 <body>
 
+<h1>Upload Single File Field</h1>
+
 <form name="form1" method="post" action="action.php" enctype="multipart/form-data">
 	<input type="file" name="filUpload" id="filUpload">
 	<button type="submit" name="btnSubmit" id="btnSubmit">Submit</button>

@@ -7,6 +7,7 @@
 </head>
 <body>
 
+<h1>Upload Multiple File Field</h1>
 <form name="form1" method="post" action="action.php" enctype="multipart/form-data">
 	<input type="file" name="filUpload[]"><br>
 	<input type="file" name="filUpload[]"><br>

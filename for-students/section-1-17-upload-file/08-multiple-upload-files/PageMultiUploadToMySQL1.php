@@ -24,12 +24,16 @@
 </script>
 </head>
 <body>
-	<form name="frmMain" method="post" action="PageMultiUploadToMySQL2.php" enctype="multipart/form-data">
+
+<h1>Multiple Upload Files</h1>
+
+<form name="frmMain" method="post" action="PageMultiUploadToMySQL2.php" enctype="multipart/form-data">
 	<input type="file" name="filUpload[]">
 	<input name="btnButton" id="btnButton" type="button" value="+" onClick="JavaScript:fncCreateElement();">
 	<br>
 	<span id="mySpan"></span>
 	<input name="btnSubmit" type="submit" value="Submit">
-	</form>
+</form>
+
 </body>
 </html>

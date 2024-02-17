@@ -7,6 +7,7 @@
 </head>
 <body>
 
+<h1>Upload File To MySQL</h1>
 <form name="form1" method="post" action="PageUploadToMySQL2.php" enctype="multipart/form-data">
 	<input type="file" name="filUpload"><br>
 	<input name="btnSubmit" type="submit" value="Submit">
