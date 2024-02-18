@@ -33,7 +33,7 @@ if (!$row) {
     $strMessage .= "Welcome : " . $row["Name"] . "<br>";
     $strMessage .= "Username : " . $row["Username"] . "<br>";
     $strMessage .= "Password : " . $row["Password"] . "<br>";
-    $strMessage .= "Please activate your account by clicking the following link: <a href='$activation_link'>$activation_link</a><br>";
+    //$strMessage .= "Please activate your account by clicking the following link: <a href='$activation_link'>$activation_link</a><br>";
     $strMessage .= "=================================<br>";
     $strMessage .= "company.Com<br>";
 
