@@ -1,6 +1,9 @@
 <?php
 $conn = mysqli_connect("localhost","root","","my_auth2");
 
+function rowCount($result) {
+  return mysqli_num_rows($result);
+}
 function escape($string) {
   global $conn;
   mysqli_real_escape_string($conn, $string);
@@ -18,7 +21,7 @@ function confirm($result) {
   }
 }
 
-function fetch_array($result) {
+function fetchArray($result) {
   global $conn;
   return mysqli_fetch_array($result);
 }
