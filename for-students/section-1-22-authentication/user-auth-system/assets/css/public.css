@@ -1,0 +1,14 @@
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header, Main, Footer */
+  min-height: 100vh;
+}
+
+main {
+  padding: 2rem 0;
+}
+
+footer {
+  color: gray;
+  padding: 5px;
+}

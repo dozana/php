@@ -1,42 +1,12 @@
+<?php require_once 'fnc/connect.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>იტალიური სკოლა - ბიბლიოთეკა</title>
-  <link rel="stylesheet" href="dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="dist/css/public.css">
-</head>
+  <head>
+    <?php include 'inc/head.php'; ?>
+  </head>
 <body>
 
-<header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="index.php">ბიბლიოთეკა</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="index.php">მთავარი</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="books.php">წიგნები</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="login.php">შესვლა</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="register.php">რეგისტრაცია</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
+<?php include 'inc/header.php'; ?>
 
 <main>
   <div class="container">
@@ -65,23 +35,47 @@
             </p>
           </div>
         </div>
+
+        <?php
+          if (isset($_POST['submit'])) {
+            $email = sanitizeInput($_POST['email']);
+            $password = sanitizeInput($_POST['password']);
+
+            $query = "SELECT * FROM students WHERE email = '$email'";
+            $result = mysqli_query($conn, $query);
+
+            if (mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_assoc($result);
+                if (password_verify($password, $row['password'])) {
+                    // Password is correct, set session and redirect to dashboard or home page
+                    $_SESSION['user_id'] = $row['id'];
+                    $_SESSION['message'] = [
+                      'text' => 'Login successful!', 
+                      'type' => 'success'
+                    ];
+                    redirectWithDelay("dashboard.php");
+                } else {
+                    $_SESSION['message'] = [
+                      'text' => 'Incorrect password', 
+                      'type' => 'error'
+                    ];
+                    redirectWithoutDelay("login.php");
+                }
+            } else {
+                $_SESSION['message'] = array('text' => 'Email not found', 'type' => 'error');
+                redirectWithoutDelay("login.php");
+            }
+          }
+
+          mysqli_close($conn);
+        ?>
         
       </div>
     </div>
   </div>
 </main>
 
-<footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <p>&copy; 2024 ყველა უფლება დაცულია</p>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<?php include 'inc/footer.php'; ?>
 
 </body>
 </html>
