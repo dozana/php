@@ -44,7 +44,7 @@
 					</div>
 				</form>
 
-				<?php validate_user_registration(); ?>
+				<?php validateUserRegistration(); ?>
 
 			</div>
 		</div>
