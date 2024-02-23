@@ -1,53 +1,39 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/nav.php'; ?>
 
-<div class="container">
-	<div class="row">
-		<div class="col-lg-6 col-lg-offset-3">	
-		
-			<div class="alert alert-success alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert">
-					<span aria-hidden="true">×</span><span class="sr-only">Close</span>
-				</button>We have a sent a security code to your email <span>@edwin@email.com</span>
-			</div>					
-		</div>
-	</div>
-	<div class="row">
-			<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3">
-				<div class="alert-placeholder">
+<main>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-6 col-md-6 col-sm-12">
 
-				</div>
-				<div class="panel panel-success">
-					<div class="panel-body">
+				<h2 class="mb-4">Enter Code</h2>
+
+				<form method="post" action="#" autocomplete="off">
+					<div class="mb-3">
+						<input type="text" name="code" id="code" tabindex="1" class="form-control form-control-lg" placeholder="##########" value="" autocomplete="off" required>
+					</div>
+					<div class="mb-3">
 						<div class="row">
-							<div class="col-lg-12">
-								<div class="text-center"><h2><b> Enter Code</b></h2></div>
-								<form id="register-form"  method="post" role="form" autocomplete="off">
-									<div class="form-group">
-										<input type="text" name="code" id="code" tabindex="1" class="form-control" placeholder="##########" value="" autocomplete="off" required/>
-									</div>
-									<div class="form-group">
-										<div class="row">
-
-											<div class="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-2  col-xs-6">
-												<input type="submit" name="code-cancel" id="code-cancel" tabindex="2" class="form-control btn btn-danger" value="Cancel" />
-		
-											</div>
-											<div class="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-2 col-xs-6">
-												<input type="submit" name="code-submit" id="recover-submit" tabindex="2" class="form-control btn btn-success" value="Continue" />
-												
-											</div>
-
-										</div>
-									</div>
-									<input type="hidden" class="hide" name="token" id="token" value="">
-								</form>
+							<div class="col-6">
+								<input type="submit" name="code-cancel" id="code-cancel" tabindex="2" class="btn btn-danger form-control" value="Cancel">
+							</div>
+							<div class="col-6">
+								<input type="submit" name="code-submit" id="recover-submit" tabindex="2" class="btn btn-success form-control" value="Continue">
 							</div>
 						</div>
 					</div>
+					<input type="hidden" class="hide" name="token" id="token" value="">
+				</form>
+
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+						We have sent a security code to your email <span>john@company.com</span>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
+
 			</div>
+		</div>
 	</div>
-</div>
+</main>
+
 
 <?php include 'includes/footer.php'; ?>

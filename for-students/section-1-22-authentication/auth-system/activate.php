@@ -1,10 +1,16 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/nav.php'; ?>
 
-<div class="container">
-	<div class="jumbotron">
-		<h1 class="text-center"></h1>
+<main>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+
+				<h2 class="mb-4">Activate</h2>
+				
+			</div>
+		</div>
 	</div>
-</div>
+</main>
 
 <?php include 'includes/footer.php'; ?>

@@ -1,46 +1,32 @@
 <?php include 'includes/header.php'; ?>
-	
-<div class="container">
-	<div class="row">
-	</div>
-	
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<div class="panel panel-login">
-				<div class="panel-heading">
-					<div class="row">
-					
-						<div class="col-xs-12">
-							<h3>Reset Password</h3>
-						</div>
-					</div>
-					<hr>
-				</div>
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-lg-12">
-							<form id="register-form" method="post" role="form" >
+<?php include 'includes/nav.php'; ?>
 
-								<div class="form-group">
-									<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" required>
-								</div>
-								<div class="form-group">
-									<input type="password" name="confirm_password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password" required>
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="reset-password-submit" id="reset-password-submit" tabindex="4" class="form-control btn btn-register" value="Reset Password">
-										</div>
-									</div>
-								</div>
-							</form>
+<main>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-6 col-md-6 col-sm-12">
+
+				<h2 class="mb-4">Reset Password</h2>
+
+				<form method="post" action="#">
+					<div class="mb-3">
+						<label for="password" class="form-label">Password</label>
+						<input type="password" class="form-control" id="password" name="password" tabindex="1" required>
+					</div>
+					<div class="mb-3">
+						<label for="confirm-password" class="form-label">Confirm Password</label>
+						<input type="password" class="form-control" id="confirm-password" name="confirm_password" tabindex="2" required>
+					</div>
+					<div class="mb-3">
+						<div class="row">
+							<button type="submit" class="btn btn-primary" name="submit" tabindex="3">Reset Password</button>
 						</div>
 					</div>
-				</div>
+				</form>
+
 			</div>
 		</div>
 	</div>
-</div>
+</main>
 
 <?php include 'includes/footer.php'; ?>
