@@ -59,6 +59,9 @@ function usernameExists($username) {
   }
 }
 
+
+
+
 /********************************************
 * Validation Functions
 ********************************************/
@@ -122,8 +125,37 @@ function validateUserRegistration() {
       foreach($errors as $error) {
         echo validationErrors($error);
       }
+    } else {
+      if(registerUser($first_name, $last_name, $username, $email, $password)) {
+        echo "User Registered";
+      }
     }
   }
 }
+
+
+function registerUser($first_name, $last_name, $username, $email, $password) {  
+  $first_name = escape($first_name);
+  $last_name = escape($last_name);
+  $username = escape($username);
+  $email = escape($email);
+  $password = escape($password);
+  
+  if(emailExists($email) || usernameExists($username)) {
+    return false;
+  } else {
+    $confirm_code = md5($username . microtime());
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    
+    $sql = "INSERT INTO users (first_name, last_name, username, email, password, confirm_code, active) 
+            VALUES ('$first_name', '$last_name', '$username', '$email', '$hashed_password', '$confirm_code', 0)";
+  
+    $result = query($sql);
+    confirm($result);
+
+    return true;
+  }
+}
+
 
 ?>

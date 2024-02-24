@@ -6,16 +6,18 @@ function rowCount($result) {
 }
 function escape($string) {
   global $conn;
-  mysqli_real_escape_string($conn, $string);
+  return mysqli_real_escape_string($conn, $string);
 }
 
 function query($query) {
   global $conn;
+
   return mysqli_query($conn, $query);
 }
 
 function confirm($result) {
   global $conn;
+
   if(!$result) {
     die("Query Failed: ". mysqli_error($conn));
   }
@@ -23,6 +25,7 @@ function confirm($result) {
 
 function fetchArray($result) {
   global $conn;
+  
   return mysqli_fetch_array($result);
 }
 ?>
