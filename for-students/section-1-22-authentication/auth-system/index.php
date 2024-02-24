@@ -8,15 +8,7 @@
 
 				<h2 class="mb-4">Home</h2>
 				
-				<?php
-					$sql = "SELECT * FROM users";
-					$result = query($sql);
-
-					confirm($result);
-
-					$row = fetchArray($result);
-					echo $row['username'];
-				?>
+				<?php displayMessage(); ?>
 
 			</div>
 		</div>

@@ -1,10 +1,13 @@
-$(function(){
-  $("#register_email").on('change', function(){
-    var email = $(this).val();
-    $.post("ajax_functions.php", {email : email}, function(data){
-        $(".db-feedback").html(data);
-    });
-  });
+// $(function(){
+  // $("#register_email").on('change', function(){
+  //   var email = $(this).val();
+  //   $.post("ajax_functions.php", {email : email}, function(data){
+  //       $(".db-feedback").html(data);
+  //   });
+  // });
+
+
+
 
   // $('#login-form-link').click(function(e) {
   //     $("#login-form").delay(100).fadeIn(100);
@@ -33,4 +36,4 @@ $(function(){
 
   // });
 
-});
+// });

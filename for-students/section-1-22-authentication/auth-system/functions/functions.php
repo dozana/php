@@ -21,7 +21,10 @@ function setMessage($message) {
 
 function displayMessage() {
   if(isset($_SESSION['message'])) {
+    echo '<div class="alert alert-secondary" role="alert">';
     echo $_SESSION['message'];
+    echo '</div>';
+
     unset($_SESSION['message']);
   }
 }
@@ -71,7 +74,7 @@ function validateUserRegistration() {
   $errors = [];
 
   $min = 2;
-  $max = 20;
+  $max = 50;
 
   if($_SERVER['REQUEST_METHOD'] == "POST") {
     $first_name = clean($_POST['first_name']);
@@ -127,7 +130,8 @@ function validateUserRegistration() {
       }
     } else {
       if(registerUser($first_name, $last_name, $username, $email, $password)) {
-        echo "User Registered";
+        setMessage("Please check your email or spam folder for activation link.");
+        redirect("index.php");
       }
     }
   }
