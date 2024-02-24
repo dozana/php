@@ -62,7 +62,9 @@ function usernameExists($username) {
   }
 }
 
-
+function sendEmail($email, $subject, $msg, $headers) {
+  return mail($email, $subject, $msg, $headers);
+}
 
 
 /********************************************
@@ -148,14 +150,23 @@ function registerUser($first_name, $last_name, $username, $email, $password) {
   if(emailExists($email) || usernameExists($username)) {
     return false;
   } else {
-    $confirm_code = md5($username . microtime());
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $confirm_code = md5($username . microtime());
     
     $sql = "INSERT INTO users (first_name, last_name, username, email, password, confirm_code, active) 
             VALUES ('$first_name', '$last_name', '$username', '$email', '$hashed_password', '$confirm_code', 0)";
   
     $result = query($sql);
     confirm($result);
+
+    $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+    $activation_link = "http://$_SERVER[HTTP_HOST]$base_url/login/activate.php?email=$email&code=$confirm_code";
+
+    $subject = "Activate Account";
+    $msg = "Please click the link below to activate your account: $activation_link";
+    $headers = "From: noreply@company.com";
+
+    sendEmail($email, $subject, $msg, $headers);
 
     return true;
   }
