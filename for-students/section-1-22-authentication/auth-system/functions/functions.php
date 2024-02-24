@@ -134,12 +134,17 @@ function validateUserRegistration() {
       if(registerUser($first_name, $last_name, $username, $email, $password)) {
         setMessage("Please check your email or spam folder for activation link.");
         redirect("index.php");
+      } else {
+        setMessage("Sorry we could not register the user.");
+        redirect("index.php");
       }
     }
   }
 }
 
-
+/********************************************
+* Register User Functions
+********************************************/
 function registerUser($first_name, $last_name, $username, $email, $password) {  
   $first_name = escape($first_name);
   $last_name = escape($last_name);
@@ -169,6 +174,35 @@ function registerUser($first_name, $last_name, $username, $email, $password) {
     sendEmail($email, $subject, $msg, $headers);
 
     return true;
+  }
+}
+
+/********************************************
+* Activate User Functions
+* http://localhost/activate.php?email=john.doe@gmail.com&code=2fc5f76106016acc97fe9b1968a8ae16
+********************************************/
+function activateUser() {
+  if($_SERVER['REQUEST_METHOD'] == "GET") {
+    if(isset($_GET['email'])) {
+      $email = clean($_GET['email']);
+      $confirm_code = clean($_GET['code']);
+
+      $sql = "SELECT id FROM users WHERE email='".escape($_GET['email'])."' AND confirm_code='".$_GET['code']."'";
+      $result = query($sql);
+      confirm($result);
+
+      if(rowCount($result) == 1) {
+        $sql2 = "UPDATE users SET active = 1, confirm_code = 0 WHERE email='".escape($email)."' AND confirm_code='".escape($confirm_code)."'";
+        $result2 = query($sql2);
+        confirm($result2);
+  
+        setMessage("Your account has been activated, please login.");
+        redirect("login.php");
+      } else {
+        setMessage("Sorry your account could not be activated.");
+        redirect("login.php");
+      }
+    }
   }
 }
 

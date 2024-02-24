@@ -27,6 +27,8 @@
 					</div>
 				</form>
 
+				<?php displayMessage(); ?>
+
 			</div>
 		</div>
 	</div>

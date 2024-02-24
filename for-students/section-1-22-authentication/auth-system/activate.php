@@ -7,7 +7,8 @@
 			<div class="col-lg-12 col-md-12 col-sm-12">
 
 				<h2 class="mb-4">Activate</h2>
-				
+				<p><?php activateUser(); ?></p>
+
 			</div>
 		</div>
 	</div>
