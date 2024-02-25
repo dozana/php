@@ -27,7 +27,10 @@
 					</div>
 				</form>
 
-				<?php displayMessage(); ?>
+				<?php 
+					displayMessage();
+					validateUserLogin();
+				?>
 
 			</div>
 		</div>

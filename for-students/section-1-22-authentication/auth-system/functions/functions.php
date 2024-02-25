@@ -68,7 +68,7 @@ function sendEmail($email, $subject, $msg, $headers) {
 
 
 /********************************************
-* Validation Functions
+* Validation User Registration Function
 ********************************************/
 
 function validateUserRegistration() {
@@ -141,6 +141,40 @@ function validateUserRegistration() {
     }
   }
 }
+
+/********************************************
+* Validation User Login Function
+********************************************/
+
+function validateUserLogin() {
+
+  $errors = [];
+
+  $min = 2;
+  $max = 50;
+
+  if($_SERVER['REQUEST_METHOD'] == "POST") {
+    $email = clean($_POST['email']);
+    $password = clean($_POST['password']);
+
+    if(empty($email)) {
+      $errors[] = "E-Mail field cannot be empty.";
+    }
+
+    if(empty($password)) {
+      $errors[] = "Password field cannot be empty.";
+    }
+
+    if(!empty($errors)) {
+      foreach($errors as $error) {
+        echo validationErrors($error);
+      }
+    } else {
+      echo "Not errors";
+    }
+  }
+}
+
 
 /********************************************
 * Register User Functions
