@@ -154,6 +154,7 @@ function validateUserLogin() {
   if($_SERVER['REQUEST_METHOD'] == "POST") {
     $email = clean($_POST['email']);
     $password = clean($_POST['password']);
+    $remember = isset($_POST['remember']);
 
     if(empty($email)) {
       $errors[] = "E-Mail field cannot be empty.";
@@ -168,8 +169,8 @@ function validateUserLogin() {
         echo validationErrors($error);
       }
     } else {
-      if(loginUser($email, $password)) {
-        setMessage("You are logged in.");
+      if(loginUser($email, $password, $remember)) {
+        //setMessage("You are logged in.");
         redirect("dashboard.php");
       } else {
         setMessage("Something went wrong, your credentials are not correct.");
@@ -218,7 +219,7 @@ function registerUser($first_name, $last_name, $username, $email, $password) {
 /********************************************
 * User Login Function
 ********************************************/
-function loginUser($email, $password) {
+function loginUser($email, $password, $remember) {
   $sql = "SELECT id, password FROM users WHERE email='".escape($email)."' AND active = 1";
   $result = query($sql);
 
@@ -227,6 +228,11 @@ function loginUser($email, $password) {
     $db_password = $row['password'];
 
     if(password_verify($password, $db_password)) {
+      // 
+      if($remember == "on") {
+        setcookie('email', $email, time() + 60);
+      }
+
       $_SESSION['email'] = $email;
 
       return true;
@@ -243,7 +249,7 @@ function loginUser($email, $password) {
 * Logged in Function
 ********************************************/
 function loggedIn() {
-  if(isset($_SESSION['email'])) {
+  if(isset($_SESSION['email']) || $_COOKIE['email']) {
     return true;
   } else {
     return false;
