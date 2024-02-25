@@ -70,7 +70,6 @@ function sendEmail($email, $subject, $msg, $headers) {
 /********************************************
 * Validation User Registration Function
 ********************************************/
-
 function validateUserRegistration() {
 
   $errors = [];
@@ -145,7 +144,6 @@ function validateUserRegistration() {
 /********************************************
 * Validation User Login Function
 ********************************************/
-
 function validateUserLogin() {
 
   $errors = [];
@@ -170,14 +168,20 @@ function validateUserLogin() {
         echo validationErrors($error);
       }
     } else {
-      echo "Not errors";
+      if(loginUser($email, $password)) {
+        setMessage("You are logged in.");
+        redirect("dashboard.php");
+      } else {
+        setMessage("Something went wrong, your credentials are not correct.");
+        redirect("login.php");
+      }
     }
   }
 }
 
 
 /********************************************
-* Register User Functions
+* User Registration Function
 ********************************************/
 function registerUser($first_name, $last_name, $username, $email, $password) {  
   $first_name = escape($first_name);
@@ -210,6 +214,44 @@ function registerUser($first_name, $last_name, $username, $email, $password) {
     return true;
   }
 }
+
+/********************************************
+* User Login Function
+********************************************/
+function loginUser($email, $password) {
+  $sql = "SELECT id, password FROM users WHERE email='".escape($email)."' AND active = 1";
+  $result = query($sql);
+
+  if(rowCount($result) == 1) {
+    $row = fetchArray($result);
+    $db_password = $row['password'];
+
+    if(password_verify($password, $db_password)) {
+      $_SESSION['email'] = $email;
+
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+
+}
+
+/********************************************
+* Logged in Function
+********************************************/
+function loggedIn() {
+  if(isset($_SESSION['email'])) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+
 
 /********************************************
 * Activate User Functions
