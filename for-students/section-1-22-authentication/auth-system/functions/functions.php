@@ -297,7 +297,19 @@ function activateUser() {
 function recoverPassword() {
   if($_SERVER['REQUEST_METHOD'] == "POST") {
     if(isset($_SESSION['token']) && $_POST['token'] === $_SESSION['token']) {
-      echo "it works";
+      $email = escape($_POST['email']);
+
+      if(emailExists($_POST['email'])) {
+        $confirm_code = md5($email . microtime());
+        $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+        $reset_link = "http://$_SERVER[HTTP_HOST]$base_url/login/code.php?email=$email&code=$confirm_code";
+    
+        $subject = "Reset your password";
+        $msg = "This is your password reset code {$confirm_code} Please click the link to reset the password: {$reset_link}";
+        $headers = "From: noreply@company.com";
+
+        sendEmail($email, $subject, $msg, $headers);
+      }
     }
   }
 }
