@@ -29,8 +29,9 @@ function displayMessage() {
   }
 }
 
-function tockenGenerator() {
-  $token = $_SESSION['token'] = md5(uniqid(mt_rand(), true));
+function tokenGenerator() {
+  $token = md5(uniqid(mt_rand(), true));
+  $_SESSION['token'] = $token; // Store the token in the session
   return $token;
 }
 
@@ -288,5 +289,17 @@ function activateUser() {
   }
 }
 
+
+/********************************************
+* Recovery Password Function
+********************************************/
+
+function recoverPassword() {
+  if($_SERVER['REQUEST_METHOD'] == "POST") {
+    if(isset($_SESSION['token']) && $_POST['token'] === $_SESSION['token']) {
+      echo "it works";
+    }
+  }
+}
 
 ?>
