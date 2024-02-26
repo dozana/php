@@ -8,7 +8,7 @@
 
 				<h2 class="mb-4">Recover Password</h2>
 
-				<form method="POST" action="#" autocomplete="off">
+				<form method="POST" action="#" autocomplete="off" class="mb-3">
 					<div class="mb-3">
 						<label for="email" class="form-label">E-Mail</label>
 						<input type="email" class="form-control" id="email" name="email" tabindex="1">

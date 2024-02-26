@@ -304,12 +304,28 @@ function recoverPassword() {
         $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
         $reset_link = "http://$_SERVER[HTTP_HOST]$base_url/login/code.php?email=$email&code=$confirm_code";
     
+        setcookie('temp_access_code', $confirm_code, time() + 60);
+
+        $sql = "UPDATE users SET confirm_code = '".escape($confirm_code)."' WHERE email = '".escape($email)."'";
+        $result = query($sql);
+        confirm($result);
+
         $subject = "Reset your password";
         $msg = "This is your password reset code {$confirm_code} Please click the link to reset the password: {$reset_link}";
         $headers = "From: noreply@company.com";
 
-        sendEmail($email, $subject, $msg, $headers);
+        if(sendEmail($email, $subject, $msg, $headers)) {
+          
+        } else {
+          echo validationErrors("E-mail could not be sent.");
+        }
+
+      } else {
+        echo validationErrors("This email does not exist.");
       }
+    } else {
+      // Token does not exist.
+      redirect("index.php");
     }
   }
 }
