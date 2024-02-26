@@ -196,13 +196,12 @@ function registerUser($first_name, $last_name, $username, $email, $password) {
     return false;
   } else {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $confirm_code = md5($username . microtime());
+    $confirm_code = md5($email . microtime());
     
     $sql = "INSERT INTO users (first_name, last_name, username, email, password, confirm_code, active) 
             VALUES ('$first_name', '$last_name', '$username', '$email', '$hashed_password', '$confirm_code', 0)";
   
     $result = query($sql);
-    confirm($result);
 
     $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
     $activation_link = "http://$_SERVER[HTTP_HOST]$base_url/login/activate.php?email=$email&code=$confirm_code";
@@ -272,7 +271,6 @@ function activateUser() {
 
       $sql = "SELECT id FROM users WHERE email='".escape($_GET['email'])."' AND confirm_code='".$_GET['code']."'";
       $result = query($sql);
-      confirm($result);
 
       if(rowCount($result) == 1) {
         $sql2 = "UPDATE users SET active = 1, confirm_code = 0 WHERE email='".escape($email)."' AND confirm_code='".escape($confirm_code)."'";
@@ -308,17 +306,17 @@ function recoverPassword() {
 
         $sql = "UPDATE users SET confirm_code = '".escape($confirm_code)."' WHERE email = '".escape($email)."'";
         $result = query($sql);
-        confirm($result);
 
         $subject = "Reset your password";
         $msg = "This is your password reset code {$confirm_code} Please click the link to reset the password: {$reset_link}";
         $headers = "From: noreply@company.com";
 
-        if(sendEmail($email, $subject, $msg, $headers)) {
-          
-        } else {
+        if(!sendEmail($email, $subject, $msg, $headers)) {
           echo validationErrors("E-mail could not be sent.");
         }
+
+        setMessage("Please check your email or spam folder for a password reset code.");
+        redirect("index.php");
 
       } else {
         echo validationErrors("This email does not exist.");
@@ -327,6 +325,36 @@ function recoverPassword() {
       // Token does not exist.
       redirect("index.php");
     }
+  }
+}
+
+/********************************************
+* Code Validation Function
+********************************************/
+function confirmCode() {
+  if(isset($_COOKIE['temp_access_code'])) {
+    if(!isset($_GET['email']) && !isset($_GET['code'])) {
+      redirect("index.php");
+    } else if(empty($_GET['email']) || empty($_GET['code'])) {
+      redirect("index.php");
+    } else {
+      if(isset($_POST['code'])) {
+        $email = clean($_POST['email']);
+        $confirm_code = clean($_POST['code']);
+        
+        $sql = "SELECT id FROM users WHERE confirm_code = '".escape($confirm_code)."' AND email = '".escape($email)."'";
+        $result = query($sql);
+
+        if(rowCount($result) == 1) {
+          redirect("reset.php");
+        } else {
+          echo validationErrors("Sorry, wrong validation code.");
+        }
+      }
+    }
+  } else {
+    setMessage("Sorry your validation cookie was expired.");
+    redirect("recover.php");
   }
 }
 

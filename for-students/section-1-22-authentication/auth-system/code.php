@@ -25,6 +25,8 @@
 					<input type="hidden" class="hide" name="token" id="token" value="">
 				</form>
 
+				<?php confirmCode(); ?>
+
 				<div class="alert alert-success alert-dismissible fade show" role="alert">
 						We have sent a security code to your email <span>john@company.com</span>
 						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
