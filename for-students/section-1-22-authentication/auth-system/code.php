@@ -18,7 +18,7 @@
 								<input type="submit" name="code-cancel" id="code-cancel" tabindex="2" class="btn btn-danger form-control" value="Cancel">
 							</div>
 							<div class="col-6">
-								<input type="submit" name="code-submit" id="recover-submit" tabindex="2" class="btn btn-success form-control" value="Continue">
+								<input type="submit" name="code-submit" id="recover-submit" tabindex="3" class="btn btn-success form-control" value="Continue">
 							</div>
 						</div>
 					</div>
@@ -27,10 +27,10 @@
 
 				<?php confirmCode(); ?>
 
-				<div class="alert alert-success alert-dismissible fade show" role="alert">
+				<!-- <div class="alert alert-success alert-dismissible fade show" role="alert">
 						We have sent a security code to your email <span>john@company.com</span>
 						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
+				</div> -->
 
 			</div>
 		</div>

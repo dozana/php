@@ -4,7 +4,7 @@
 * Helper Functions
 ********************************************/
 function clean($string) {
-  return htmlentities($string, ENT_QUOTES,"");
+  return htmlentities($string ?? '', ENT_QUOTES, "");
 }
 
 function redirect($location) {
@@ -339,10 +339,11 @@ function confirmCode() {
       redirect("index.php");
     } else {
       if(isset($_POST['code'])) {
-        $email = clean($_POST['email']);
+        $email = clean($_GET['email']);
         $confirm_code = clean($_POST['code']);
         
         $sql = "SELECT id FROM users WHERE confirm_code = '".escape($confirm_code)."' AND email = '".escape($email)."'";
+        
         $result = query($sql);
 
         if(rowCount($result) == 1) {
