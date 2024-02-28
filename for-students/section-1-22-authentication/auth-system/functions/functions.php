@@ -355,8 +355,15 @@ function confirmCode() {
 * Password Reset
 ********************************************/
 function passwordReset() {
-  if(isset($_GET['email']) && isset($_GET['code'])) {
-    echo "it works";
+  if(isset($_COOKIE["temp_access_code"])) {
+    if(isset($_SESSION['token']) && $_POST['token'] === $_SESSION['token']) {
+      if(isset($_GET['email']) && isset($_GET['code'])) {
+        echo "it works";
+      }
+    }
+  } else {
+    setMessage("Sorry your time has expired.");
+    redirect("recover.php");
   }
 }
 

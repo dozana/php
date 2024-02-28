@@ -25,6 +25,11 @@
 					<input type="hidden" class="hide" name="token" id="token" value="<?php echo isset($_SESSION['token']) ? $_SESSION['token'] : tokenGenerator(); ?>">
 				</form>
 
+				<?php 
+				displayMessage();
+				passwordReset();
+				?>
+
 			</div>
 		</div>
 	</div>
