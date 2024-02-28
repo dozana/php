@@ -226,7 +226,6 @@ function loginUser($email, $password, $remember) {
     $db_password = $row['password'];
 
     if(password_verify($password, $db_password)) {
-      // 
       if($remember == "on") {
         setcookie('email', $email, time() + 60);
       }
@@ -338,7 +337,7 @@ function confirmCode() {
         $result = query($sql);
 
         if(rowCount($result) == 1) {
-          setcookie('temp_access_code', $confirm_code, time() + 300);
+          setcookie('temp_access_code', $confirm_code, time() + 500);
           redirect("reset.php?email=$email&code=$confirm_code");
         } else {
           echo validationErrors("Sorry, wrong validation code.");
@@ -356,9 +355,23 @@ function confirmCode() {
 ********************************************/
 function passwordReset() {
   if(isset($_COOKIE["temp_access_code"])) {
-    if(isset($_SESSION['token']) && $_POST['token'] === $_SESSION['token']) {
-      if(isset($_GET['email']) && isset($_GET['code'])) {
-        echo "it works";
+    if(isset($_GET['email']) && isset($_GET['code'])) {
+      if(isset($_SESSION['token']) && isset($_POST['token'])) {
+        if($_POST['token'] === $_SESSION['token']) {
+
+          $password = $_POST['password'];
+          $confirm_password = $_POST['confirm_password'];
+
+          if($password === $confirm_password) {
+            $updated_password = password_hash($password, PASSWORD_DEFAULT);
+
+            $sql = "UPDATE users SET password ='".escape($updated_password)."', confirm_code = 0 WHERE email ='".escape($_GET['email'])."'";
+            $result = query($sql);
+      
+            setMessage("Your password has been changed, you can login.");
+            redirect("login.php");
+          }
+        }
       }
     }
   } else {
@@ -366,6 +379,5 @@ function passwordReset() {
     redirect("recover.php");
   }
 }
-
 
 ?>
