@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* Helper Functions
+* Helpers
 ********************************************/
 function clean($string) {
   return htmlentities($string ?? '', ENT_QUOTES, "");
@@ -67,9 +67,8 @@ function sendEmail($email, $subject, $msg, $headers) {
   return mail($email, $subject, $msg, $headers);
 }
 
-
 /********************************************
-* Validation User Registration Function
+* User Registration Validation
 ********************************************/
 function validateUserRegistration() {
 
@@ -143,7 +142,7 @@ function validateUserRegistration() {
 }
 
 /********************************************
-* Validation User Login Function
+* User Login Validation
 ********************************************/
 function validateUserLogin() {
 
@@ -181,9 +180,8 @@ function validateUserLogin() {
   }
 }
 
-
 /********************************************
-* User Registration Function
+* User Registration
 ********************************************/
 function registerUser($first_name, $last_name, $username, $email, $password) {  
   $first_name = escape($first_name);
@@ -217,7 +215,7 @@ function registerUser($first_name, $last_name, $username, $email, $password) {
 }
 
 /********************************************
-* User Login Function
+* User Login
 ********************************************/
 function loginUser($email, $password, $remember) {
   $sql = "SELECT id, password FROM users WHERE email='".escape($email)."' AND active = 1";
@@ -242,11 +240,10 @@ function loginUser($email, $password, $remember) {
   } else {
     return false;
   }
-
 }
 
 /********************************************
-* Logged in Function
+* Logged In
 ********************************************/
 function loggedIn() {
   if(isset($_SESSION['email']) || $_COOKIE['email']) {
@@ -256,12 +253,8 @@ function loggedIn() {
   }
 }
 
-
-
-
 /********************************************
-* Activate User Functions
-* http://localhost/activate.php?email=john.doe@gmail.com&code=2fc5f76106016acc97fe9b1968a8ae16
+* User Activation
 ********************************************/
 function activateUser() {
   if($_SERVER['REQUEST_METHOD'] == "GET") {
@@ -287,11 +280,9 @@ function activateUser() {
   }
 }
 
-
 /********************************************
-* Recovery Password Function
+* Password Recovery
 ********************************************/
-
 function recoverPassword() {
   if($_SERVER['REQUEST_METHOD'] == "POST") {
     if(isset($_SESSION['token']) && $_POST['token'] === $_SESSION['token']) {
@@ -302,7 +293,7 @@ function recoverPassword() {
         $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
         $reset_link = "http://$_SERVER[HTTP_HOST]$base_url/login/code.php?email=$email&code=$confirm_code";
     
-        setcookie('temp_access_code', $confirm_code, time() + 60);
+        setcookie('temp_access_code', $confirm_code, time() + 900);
 
         $sql = "UPDATE users SET confirm_code = '".escape($confirm_code)."' WHERE email = '".escape($email)."'";
         $result = query($sql);
@@ -329,7 +320,7 @@ function recoverPassword() {
 }
 
 /********************************************
-* Code Validation Function
+* Code Validation
 ********************************************/
 function confirmCode() {
   if(isset($_COOKIE['temp_access_code'])) {
@@ -347,7 +338,8 @@ function confirmCode() {
         $result = query($sql);
 
         if(rowCount($result) == 1) {
-          redirect("reset.php");
+          setcookie('temp_access_code', $confirm_code, time() + 300);
+          redirect("reset.php?email=$email&code=$confirm_code");
         } else {
           echo validationErrors("Sorry, wrong validation code.");
         }
@@ -358,5 +350,15 @@ function confirmCode() {
     redirect("recover.php");
   }
 }
+
+/********************************************
+* Password Reset
+********************************************/
+function passwordReset() {
+  if(isset($_GET['email']) && isset($_GET['code'])) {
+    echo "it works";
+  }
+}
+
 
 ?>

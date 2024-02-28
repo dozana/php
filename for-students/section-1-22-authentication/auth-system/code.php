@@ -25,7 +25,10 @@
 					<input type="hidden" class="hide" name="token" id="token" value="">
 				</form>
 
-				<?php confirmCode(); ?>
+				<?php 
+				displayMessage();
+				confirmCode();
+				?>
 
 				<!-- <div class="alert alert-success alert-dismissible fade show" role="alert">
 						We have sent a security code to your email <span>john@company.com</span>

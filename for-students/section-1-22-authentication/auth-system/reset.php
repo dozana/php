@@ -22,6 +22,7 @@
 							<button type="submit" class="btn btn-primary" name="submit" tabindex="3">Reset Password</button>
 						</div>
 					</div>
+					<input type="hidden" class="hide" name="token" id="token" value="<?php echo isset($_SESSION['token']) ? $_SESSION['token'] : tokenGenerator(); ?>">
 				</form>
 
 			</div>
