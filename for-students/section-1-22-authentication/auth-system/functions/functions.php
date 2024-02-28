@@ -245,7 +245,7 @@ function loginUser($email, $password, $remember) {
 * Logged In
 ********************************************/
 function loggedIn() {
-  if(isset($_SESSION['email']) || $_COOKIE['email']) {
+  if(isset($_SESSION['email']) || (isset($_COOKIE['email']) && !empty($_COOKIE['email']))) {
     return true;
   } else {
     return false;
@@ -315,6 +315,12 @@ function recoverPassword() {
       // Token does not exist.
       redirect("index.php");
     }
+
+    // token check
+    if(isset($_POST['cancel_submit'])) {
+      redirect("login.php");
+    }
+
   }
 }
 

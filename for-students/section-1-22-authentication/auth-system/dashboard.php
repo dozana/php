@@ -9,7 +9,7 @@
 				<h2 class="mb-4">Dashboard</h2>
 				<?php
 				if(loggedIn()) {
-					echo "logged in";
+					echo "Welcome";
 				} else {
 					redirect("index.php");
 				}

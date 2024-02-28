@@ -1,5 +1,6 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/nav.php'; ?>
+<?php if(loggedIn()) { redirect('dashboard.php'); } ?>
 
 <main>
 	<div class="container">
