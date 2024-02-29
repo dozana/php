@@ -267,7 +267,6 @@ function activateUser() {
       if(rowCount($result) == 1) {
         $sql2 = "UPDATE users SET active = 1, confirm_code = 0 WHERE email='".escape($email)."' AND confirm_code='".escape($confirm_code)."'";
         $result2 = query($sql2);
-        confirm($result2);
   
         setMessage("Your account has been activated, please login.");
         redirect("login.php");

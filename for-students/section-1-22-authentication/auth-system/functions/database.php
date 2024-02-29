@@ -12,7 +12,10 @@ function escape($string) {
 function query($query) {
   global $conn;
 
-  return mysqli_query($conn, $query);
+  $result = mysqli_query($conn, $query);
+  confirm($result);
+  
+  return $result;
 }
 
 function confirm($result) {

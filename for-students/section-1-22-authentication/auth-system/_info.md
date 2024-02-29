@@ -36,7 +36,7 @@ Please check your email or spam folder for a password reset code.
 
 
 # Step 5: Reset password 
-/code.php?email=levan@mail.com&code=11081c2a1c97a27b7625ea1ba2be4702
+/code.php?email=test@mail.com&code=d4babf6576ec4c9f3f4e92346cfb5a17
 
   confirm_code = 11081c2a1c97a27b7625ea1ba2be4702
   active = 1
