@@ -1,4 +1,13 @@
 <?php
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+//Load Composer's autoloader
+require 'vendor/autoload.php';
+
 
 /********************************************
 * Helpers
@@ -63,8 +72,35 @@ function usernameExists($username) {
   }
 }
 
-function sendEmail($email, $subject, $msg, $headers) {
-  return mail($email, $subject, $msg, $headers);
+function sendEmail($email=null, $subject=null, $msg=null, $headers=null) {
+
+  //Server settings
+  $mail = new PHPMailer();
+  $mail->isSMTP();
+  $mail->Host = Config::SMTP_HOST;
+  $mail->SMTPAuth = true;
+  $mail->Port = Config::SMTP_PORT;
+  $mail->Username = Config::SMTP_USER;
+  $mail->Password = Config::SMTP_PASS;
+
+  $mail->setFrom('info@auth.com', 'John Doe');
+  $mail->addAddress($email);
+
+  //Content
+  $mail->isHTML(true);
+  $mail->CharSet = 'UTF-8';
+  $mail->Subject = $subject;
+  $mail->Body    = $msg;
+  $mail->AltBody = $msg;
+
+  if(!$mail->send()) {
+    echo "Message could not be sent.";
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+  } else {
+    echo "Message has been sent.";
+  }
+
+  // return mail($email, $subject, $msg, $headers);
 }
 
 /********************************************
@@ -202,10 +238,10 @@ function registerUser($first_name, $last_name, $username, $email, $password) {
     $result = query($sql);
 
     $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
-    $activation_link = "http://$_SERVER[HTTP_HOST]$base_url/login/activate.php?email=$email&code=$confirm_code";
+    $activation_link = "http://$_SERVER[HTTP_HOST]$base_url/activate.php?email=$email&code=$confirm_code";
 
     $subject = "Activate Account";
-    $msg = "Please click the link below to activate your account: $activation_link";
+    $msg = "Please click the <a href='{$activation_link}' target='_blank'>link</a> below to activate your account.";
     $headers = "From: noreply@company.com";
 
     sendEmail($email, $subject, $msg, $headers);
@@ -283,36 +319,40 @@ function activateUser() {
 ********************************************/
 function recoverPassword() {
   if($_SERVER['REQUEST_METHOD'] == "POST") {
-    if(isset($_SESSION['token']) && $_POST['token'] === $_SESSION['token']) {
-      $email = escape($_POST['email']);
 
-      if(emailExists($_POST['email'])) {
-        $confirm_code = md5($email . microtime());
-        $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
-        $reset_link = "http://$_SERVER[HTTP_HOST]$base_url/login/code.php?email=$email&code=$confirm_code";
-    
-        setcookie('temp_access_code', $confirm_code, time() + 900);
-
-        $sql = "UPDATE users SET confirm_code = '".escape($confirm_code)."' WHERE email = '".escape($email)."'";
-        $result = query($sql);
-
-        $subject = "Reset your password";
-        $msg = "This is your password reset code {$confirm_code} Please click the link to reset the password: {$reset_link}";
-        $headers = "From: noreply@company.com";
-
-        if(!sendEmail($email, $subject, $msg, $headers)) {
-          echo validationErrors("E-mail could not be sent.");
+    if(isset($_POST['recover_submit'])) {
+      if(isset($_SESSION['token']) && $_POST['token'] === $_SESSION['token']) {
+        $email = escape($_POST['email']);
+  
+        if(emailExists($_POST['email'])) {
+          $confirm_code = md5($email . microtime());
+          $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+          $reset_link = "http://$_SERVER[HTTP_HOST]$base_url/code.php?email=$email&code=$confirm_code";
+      
+          setcookie('temp_access_code', $confirm_code, time() + 900);
+  
+          $sql = "UPDATE users SET confirm_code = '".escape($confirm_code)."' WHERE email = '".escape($email)."'";
+          $result = query($sql);
+  
+          $subject = "Reset your password";
+          $msg = "This is your password reset code {$confirm_code} ";
+          $msg .= "Please click the <a href='{$reset_link}' target='_blank'>link</a> to reset the password.";
+          $headers = "From: noreply@company.com";
+  
+          if(!sendEmail($email, $subject, $msg, $headers)) {
+            echo validationErrors("E-mail could not be sent.");
+          }
+  
+          setMessage("Please check your email or spam folder for a password reset code.");
+          redirect("index.php");
+  
+        } else {
+          echo validationErrors("This email does not exist.");
         }
-
-        setMessage("Please check your email or spam folder for a password reset code.");
-        redirect("index.php");
-
       } else {
-        echo validationErrors("This email does not exist.");
+        // Token does not exist.
+        redirect("index.php");
       }
-    } else {
-      // Token does not exist.
-      redirect("index.php");
     }
 
     // token check
@@ -370,11 +410,13 @@ function passwordReset() {
           if($password === $confirm_password) {
             $updated_password = password_hash($password, PASSWORD_DEFAULT);
 
-            $sql = "UPDATE users SET password ='".escape($updated_password)."', confirm_code = 0 WHERE email ='".escape($_GET['email'])."'";
+            $sql = "UPDATE users SET password ='".escape($updated_password)."', confirm_code = 0, active = 1 WHERE email ='".escape($_GET['email'])."'";
             $result = query($sql);
       
             setMessage("Your password has been changed, you can login.");
             redirect("login.php");
+          } else {
+            echo validationErrors("Password fields don't match.");
           }
         }
       }
@@ -384,5 +426,4 @@ function passwordReset() {
     redirect("recover.php");
   }
 }
-
 ?>

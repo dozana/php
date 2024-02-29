@@ -18,7 +18,7 @@
 							<input type="submit" name="cancel_submit" id="cancel-submit" tabindex="2" class="form-control btn btn-danger" value="Cancel" />
 						</div>
 						<div class="col-lg-6 col-sm-6 col-xs-6">
-							<input type="submit" name="recover-submit" id="recover-submit" tabindex="3" class="form-control btn btn-success" value="Send Password Reset Link" />
+							<input type="submit" name="recover_submit" id="recover-submit" tabindex="3" class="form-control btn btn-success" value="Send Password Reset Link" />
 						</div>
 					</div>
 					<input type="hidden" class="hide" name="token" id="token" value="<?php echo isset($_SESSION['token']) ? $_SESSION['token'] : tokenGenerator(); ?>">

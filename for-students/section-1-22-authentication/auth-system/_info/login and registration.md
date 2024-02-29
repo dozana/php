@@ -4,7 +4,7 @@ Enter user data
 
 # Step 2: Activate Profile 
 Check your email or spam folder for activation link.
-/activate.php?email=levan@mail.com&code=dbd6e41b2e5a21976fa7b2b94a7b18a9
+/activate.php?email=test@mail.com&code=dbd6e41b2e5a21976fa7b2b94a7b18a9
 
   confirm_code = dbd6e41b2e5a21976fa7b2b94a7b18a9
   active = 0

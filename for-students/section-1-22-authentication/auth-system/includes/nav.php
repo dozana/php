@@ -20,6 +20,9 @@
         <ul class="navbar-nav mb-2 mb-lg-0">
           <?php if(loggedIn()): ?>
             <li class="nav-item">
+              <a class="nav-link" href="dashboard.php">Dashboard</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="logout.php">Logout</a>
             </li>
           <?php else: ?>
