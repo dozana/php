@@ -103,6 +103,43 @@ function sendEmail($email=null, $subject=null, $msg=null, $headers=null) {
   // return mail($email, $subject, $msg, $headers);
 }
 
+
+
+/********************************************
+* User Registration
+********************************************/
+function registerUser($first_name, $last_name, $username, $email, $password) {  
+  $first_name = escape($first_name);
+  $last_name = escape($last_name);
+  $username = escape($username);
+  $email = escape($email);
+  $password = escape($password);
+  $role = 'user';
+  
+  if(emailExists($email) || usernameExists($username)) {
+    return false;
+  } else {
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $confirm_code = md5($email . microtime());
+    
+    $sql = "INSERT INTO users (first_name, last_name, username, email, password, confirm_code, active, role) 
+            VALUES ('$first_name', '$last_name', '$username', '$email', '$hashed_password', '$confirm_code', 0, '$role')";
+  
+    query($sql);
+
+    $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+    $activation_link = "http://$_SERVER[HTTP_HOST]$base_url/activate.php?email=$email&code=$confirm_code";
+
+    $subject = "Activate Account";
+    $msg = "Please click the <a href='{$activation_link}' target='_blank'>link</a> below to activate your account.";
+    $headers = "From: noreply@company.com";
+
+    sendEmail($email, $subject, $msg, $headers);
+
+    return true;
+  }
+}
+
 /********************************************
 * User Registration Validation
 ********************************************/
@@ -177,6 +214,42 @@ function validateUserRegistration() {
   }
 }
 
+
+
+
+/********************************************
+* User Login
+********************************************/
+function loginUser($email, $password, $remember) {
+  $sql = "SELECT id, password, role, first_name, last_name FROM users WHERE email='".escape($email)."' AND active = 1";
+  $result = query($sql);
+
+  if(rowCount($result) == 1) {
+    $row = fetchArray($result);
+    $db_password = $row['password'];
+    $db_role = $row['role'];
+    $db_first_name = $row['first_name'];
+    $db_last_name = $row['last_name'];
+
+    if(password_verify($password, $db_password)) {
+      if($remember == "on") {
+        setcookie('email', $email, time() + 60);
+      }
+
+      $_SESSION['email'] = $email;
+      $_SESSION['role'] = $db_role;
+      $_SESSION['first_name'] = $db_first_name;
+      $_SESSION['last_name'] = $db_last_name;
+
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
 /********************************************
 * User Login Validation
 ********************************************/
@@ -206,74 +279,17 @@ function validateUserLogin() {
       }
     } else {
       if(loginUser($email, $password, $remember)) {
-        //setMessage("You are logged in.");
-        redirect("dashboard.php");
+        if($_SESSION['role'] == 'admin') {
+          redirect('dashboard-admin.php');
+        } else {
+          redirect('dashboard-user.php');
+        }
+        // redirect("dashboard.php");
       } else {
         setMessage("Something went wrong, your credentials are not correct.");
         redirect("login.php");
       }
     }
-  }
-}
-
-/********************************************
-* User Registration
-********************************************/
-function registerUser($first_name, $last_name, $username, $email, $password) {  
-  $first_name = escape($first_name);
-  $last_name = escape($last_name);
-  $username = escape($username);
-  $email = escape($email);
-  $password = escape($password);
-  
-  if(emailExists($email) || usernameExists($username)) {
-    return false;
-  } else {
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $confirm_code = md5($email . microtime());
-    
-    $sql = "INSERT INTO users (first_name, last_name, username, email, password, confirm_code, active) 
-            VALUES ('$first_name', '$last_name', '$username', '$email', '$hashed_password', '$confirm_code', 0)";
-  
-    $result = query($sql);
-
-    $base_url = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
-    $activation_link = "http://$_SERVER[HTTP_HOST]$base_url/activate.php?email=$email&code=$confirm_code";
-
-    $subject = "Activate Account";
-    $msg = "Please click the <a href='{$activation_link}' target='_blank'>link</a> below to activate your account.";
-    $headers = "From: noreply@company.com";
-
-    sendEmail($email, $subject, $msg, $headers);
-
-    return true;
-  }
-}
-
-/********************************************
-* User Login
-********************************************/
-function loginUser($email, $password, $remember) {
-  $sql = "SELECT id, password FROM users WHERE email='".escape($email)."' AND active = 1";
-  $result = query($sql);
-
-  if(rowCount($result) == 1) {
-    $row = fetchArray($result);
-    $db_password = $row['password'];
-
-    if(password_verify($password, $db_password)) {
-      if($remember == "on") {
-        setcookie('email', $email, time() + 60);
-      }
-
-      $_SESSION['email'] = $email;
-
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-    return false;
   }
 }
 
@@ -287,6 +303,8 @@ function loggedIn() {
     return false;
   }
 }
+
+
 
 /********************************************
 * User Activation
