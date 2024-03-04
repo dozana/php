@@ -29,4 +29,14 @@ function fetchArray($result) {
 
     return mysqli_fetch_array($result);
 }
+
+/********************************************
+ * Contacts - Insert
+ ********************************************/
+
+function insertRecord($conn, $table, $field, $value) {
+    $strSQL = "INSERT INTO $table ($field) VALUES ($value)";
+    return mysqli_query($conn, $strSQL);
+}
+
 ?>

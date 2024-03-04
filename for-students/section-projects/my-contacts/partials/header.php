@@ -23,6 +23,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contacts-read.php">Contacts</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <?php if(loggedIn()): ?>

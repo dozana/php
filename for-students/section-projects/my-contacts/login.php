@@ -9,7 +9,7 @@
 
                 <form method="post" action="#" autocomplete="off">
                     <div class="mb-3">
-                        <label for="email" class="form-label">E-Mails</label>
+                        <label for="email" class="form-label">E-Mail</label>
                         <input type="email" class="form-control" id="email" name="email" tabindex="1">
                     </div>
                     <div class="mb-3">
