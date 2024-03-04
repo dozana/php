@@ -1,6 +1,13 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/nav.php'; ?>
 
+<?php
+if ($_SESSION['role'] != "admin") {
+	echo "<p>Access Denied!</p>";
+	exit();
+}
+?>
+
 <main>
 	<div class="container">
 		<div class="row">

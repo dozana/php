@@ -7,12 +7,13 @@
 			<div class="col-lg-12 col-md-12 col-sm-12">
 
 				<h2 class="mb-4">Dashboard</h2>
+				
 				<?php
-				if(loggedIn()) {
-					echo "Welcome";
-				} else {
-					redirect("index.php");
-				}
+					if(loggedIn()) {
+						echo "Welcome";
+					} else {
+						redirect("index.php");
+					}
 				?>
 
 			</div>

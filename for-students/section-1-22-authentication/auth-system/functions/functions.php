@@ -304,6 +304,29 @@ function loggedIn() {
   }
 }
 
+function isAdmin() {
+  if ($_SESSION['role'] != "admin") {
+    redirect("index.php");
+  }
+}
+
+function isUser() {
+  if ($_SESSION['role'] != "user") {
+    redirect("index.php");
+  }
+}
+
+
+function userRole($role) {
+  if(!isset($_SESSION['email']) && (!isset($_COOKIE['email']) || empty($_COOKIE['email']))) {
+    redirect("index.php");
+  }
+
+  if ($_SESSION['role'] != $role) {
+    redirect("index.php");
+  }
+}
+
 
 
 /********************************************
