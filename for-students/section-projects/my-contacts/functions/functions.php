@@ -73,4 +73,64 @@ function loggedIn() {
 
 
 
+/********************************************
+ * Validate Contacts
+ ********************************************/
+function validateContactForm() {
+
+    $errors = [];
+
+    if($_SERVER['REQUEST_METHOD'] == "POST") {
+        $first_name = clean($_POST['first_name']);
+        $last_name = clean($_POST['last_name']);
+        $mobile = clean($_POST['mobile']);
+        $email = clean($_POST['email']);
+        $facebook = clean($_POST['facebook']);
+
+        if(empty($first_name)) {
+            $errors[] = "First Name field cannot be empty.";
+        }
+
+        if(empty($last_name)) {
+            $errors[] = "Last Name field cannot be empty.";
+        }
+
+        if(empty($mobile)) {
+            $errors[] = "Mobile field cannot be empty.";
+        }
+
+        if(empty($email)) {
+            $errors[] = "E-Mail field cannot be empty.";
+        }
+
+        if(!empty($errors)) {
+            foreach($errors as $error) {
+                echo validationErrors($error);
+            }
+        } else {
+            $table = "contacts";
+            $fields = "`first_name`, `last_name`, `mobile`, `email`, `facebook`";
+            $values = "'$first_name', '$last_name', '$mobile', '$email', '$facebook'";
+
+            $result = createContact($table, $fields, $values);
+
+            if($result) {
+                setMessage("Record has been added successfully.");
+                redirect("contacts-read.php");
+            } else {
+                setMessage("Something went wrong, your credentials are not correct.");
+                redirect("contacts-read.php");
+            }
+        }
+    }
+}
+
+function createContact($table, $fields, $values) {
+    return query("INSERT INTO $table ($fields) VALUES ($values)");
+}
+
+function deleteContact($id) {
+    return query("DELETE FROM contacts WHERE id = $id");
+}
+
 ?>

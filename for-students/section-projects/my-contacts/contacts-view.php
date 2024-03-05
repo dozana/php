@@ -7,45 +7,47 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
 
-                    <h4 class="mb-4">All Contacts</h4>
+                    <h4 class="mb-4">View Contact</h4>
 
                     <table class="table table-bordered table-hover mb-3">
-                        <thead>
-                        <tr class="text-center">
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>E-Mail</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
                         <tbody>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>john@mail.com</td>
-                            <td class="text-center">
-                                <a href="contacts-view.php" class="btn btn-primary btn-sm">View</a>
-                                <a href="contacts-edit.php" class="btn btn-warning btn-sm">Edit</a>
-                                <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>john@mail.com</td>
-                            <td class="text-center">
-                                <a href="#" class="btn btn-primary btn-sm">View</a>
-                                <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                                <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                            </td>
-                        </tr>
+                        <?php
+                        if(isset($_GET['id']) && is_numeric($_GET['id'])) {
+                            $contact_id = intval($_GET['id']);
+                            $sql = "SELECT * FROM contacts WHERE id = " . $contact_id;
+                            $result = query($sql);
+
+                            while ($row = fetchArray($result)) {
+                                ?>
+                                <tr>
+                                    <th class="col-3">ID</th>
+                                    <td class="col-9"><?php echo $row['id']; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>First Name</th>
+                                    <td><?php echo $row['first_name']; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Last Name</th>
+                                    <td><?php echo $row['last_name']; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>E-Mail</th>
+                                    <td><?php echo $row['email']; ?></td>
+                                </tr>
+                                <?php
+                            }
+
+                        } else {
+                            // Redirect if 'id' parameter is missing or invalid
+                            redirect("index.php");
+                        }
+                        ?>
+
                         </tbody>
                     </table>
 
-                    <a href="contacts-create.php" class="btn btn-primary btn-sm">New Contact</a>
+                    <a href="contacts-read.php" class="btn btn-primary btn-sm">Go Back</a>
 
                 </div>
             </div>

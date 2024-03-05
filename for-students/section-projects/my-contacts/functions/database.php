@@ -1,7 +1,4 @@
 <?php
-function rowCount($result) {
-    return mysqli_num_rows($result);
-}
 function escape($string) {
     global $conn;
     return mysqli_real_escape_string($conn, $string);
@@ -30,6 +27,14 @@ function fetchArray($result) {
     return mysqli_fetch_array($result);
 }
 
+
+
+function rowCount($result) {
+    return mysqli_num_rows($result);
+}
+
+
+
 /********************************************
  * Contacts - Insert
  ********************************************/
@@ -37,6 +42,12 @@ function fetchArray($result) {
 function insertRecord($conn, $table, $field, $value) {
     $strSQL = "INSERT INTO $table ($field) VALUES ($value)";
     return mysqli_query($conn, $strSQL);
+}
+
+function selectRecord($conn, $table, $condition) {
+    $strSQL = "SELECT * FROM $table WHERE $condition";
+    $result = mysqli_query($conn, $strSQL);
+    return mysqli_fetch_array($result);
 }
 
 ?>

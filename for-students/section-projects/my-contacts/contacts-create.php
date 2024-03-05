@@ -36,28 +36,7 @@
                         </div>
                     </form>
 
-                    <?php
-                    if(isset($_POST['submit'])) {
-                        global $conn;
-
-                        $first_name = escape($_POST['first_name']);
-                        $last_name = escape($_POST['last_name']);
-                        $mobile = escape($_POST['mobile']);
-                        $email = escape($_POST['email']);
-                        $facebook = escape($_POST['facebook']);
-
-                        $table = "contacts";
-                        $field = "`first_name`, `last_name`, `mobile`, `email`, `facebook`";
-                        $value = "'$first_name', '$last_name', '$mobile', '$email', '$facebook'";
-                        $insert = insertRecord($conn, $table, $field, $value);
-
-                        if(!$insert) {
-                            echo "Record already exists";
-                        } else {
-                            echo "Record inserted";
-                        }
-                    }
-                    ?>
+                    <?php validateContactForm(); ?>
 
                 </div>
             </div>
